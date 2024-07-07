@@ -88,3 +88,30 @@ body {
 .create-account-button:hover {
     background-color: #36a420;
 }
+
+
+/* Existing styles remain the same */
+
+.success-message {
+    background-color: #42b72a;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: none; /* Initially hidden */
+}
+
+.success-message .title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.success-message p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Adjust positioning and layout as needed */
+
+
