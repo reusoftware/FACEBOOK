@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Login</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file for styling -->
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <img src="facebook_logo.png" alt="Facebook Logo" class="logo">
+            <h2 class="title">Log into Facebook</h2>
+            <form action="login.php" method="POST" class="login-form">
+                <input type="text" name="email" placeholder="Email or Phone Number" class="input-field" required>
+                <input type="password" name="password" placeholder="Password" class="input-field" required>
+                <button type="submit" class="login-button">Log In</button>
+            </form>
+            <a href="#" class="forgot-password-link">Forgot password?</a>
+            <hr class="separator">
+            <button class="create-account-button">Create New Account</button>
+        </div>
+    </div>
+</body>
+</html>
