@@ -158,51 +158,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return allRooms;
     }
 
-    async function getChatroomList(mucType, pageNum) {
-        const packetID = generatePacketID();
-        const listRequest = {
-            handler: 'room_info',
-            type: mucType,
-            id: packetID,
-            page: pageNum.toString()
-        };
-
-        return new Promise((resolve, reject) => {
-            socket.send(JSON.stringify(listRequest));
-
-            const handleResponse = (event) => {
-                try {
-                    const response = JSON.parse(event.data);
-                    if (response.handler === 'room_info' && response.type === mucType) {
-                        socket.removeEventListener('message', handleResponse);
-                        resolve(response);
-                    }
-                } catch (error) {
-                    reject(error);
-                }
-            };
-
-            socket.addEventListener('message', handleResponse);
-
-            socket.onerror = (error) => {
-                reject(error);
-            };
-        });
-    }
-
     function populateRoomList(rooms) {
-        if (!rooms || !Array.isArray(rooms) || rooms.length === 0) {
-            console.log('No rooms to display.');
-            return;
-        }
-
         roomListbox.innerHTML = '';
 
         rooms.forEach(room => {
             const listItem = document.createElement('li');
-            const logo = document.createElement('span');
-            logo.textContent = room.name.charAt(0);
-            logo.classList.add('room-logo');
+            const logo = document.createElement('div');
+            logo.textContent = room.name.charAt(0).toUpperCase();
+            logo.style.backgroundColor = '#000';
+            logo.style.color = '#fff';
+            logo.style.borderRadius = '50%';
+            logo.style.width = '30px';
+            logo.style.height = '30px';
+            logo.style.display = 'flex';
+            logo.style.justifyContent = 'center';
+            logo.style.alignItems = 'center';
 
             const roomName = document.createElement('span');
             roomName.textContent = room.name;
