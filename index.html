@@ -24,11 +24,24 @@
     </header>
     <main>
         <aside class="sidebar">
-            <div class="profile-card">
-                <img src="profile-pic.jpg" alt="Profile Picture">
-                <h2>John Doe</h2>
-                <p>Status: Online</p>
-            </div>
+            
+ <div class="login-container">
+        <div class="login-box">
+            <img src="facebook_logo.png" alt="Facebook Logo" class="logo">
+            <h2 class="title">Log into Facebook</h2>
+            <form action="login.php" method="POST" class="login-form">
+                <input type="text" name="email" placeholder="Email or Phone Number" class="input-field" required>
+                <input type="password" name="password" placeholder="Password" class="input-field" required>
+                <button type="submit" class="login-button">Log In</button>
+            </form>
+            <a href="#" class="forgot-password-link">Forgot password?</a>
+            <hr class="separator">
+            <button class="create-account-button">Create New Account</button>
+        </div>
+    </div>
+
+
+            
             <div class="friends-list">
                 <h3>Friends</h3>
                 <ul id="friendListbox">
