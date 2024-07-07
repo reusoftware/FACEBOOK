@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +31,7 @@
                     <h2 class="title">Log into TalkinChat</h2>
                     <form id="loginForm" action="login.php" method="POST" class="login-form">
                         <input type="text" id="username" name="email" placeholder="Email or Phone Number" class="input-field" required>
+                       <div id="status"></div> <!-- Add this status div -->
                         <input type="password" id="password" name="password" placeholder="Password" class="input-field" required>
                         <button type="button" id="loginButton" class="login-button">Log In</button>
                     </form>
@@ -46,6 +48,7 @@
                   <footer>
         <p>&copy; 2024 A3R Chat. All rights reserved.</p>
     </footer>
+                
             </div>
         </aside>
         <section class="chat-section">
