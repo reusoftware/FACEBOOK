@@ -3,52 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook Login</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file for styling -->
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-box" id="loginBox">
-            <img src="facebook_logo.png" alt="Facebook Logo" class="logo">
-            <h2 class="title">Log into Facebook</h2>
-            <form action="login.php" method="POST" class="login-form" id="loginForm">
-                <input type="text" name="email" placeholder="Email or Phone Number" class="input-field" required>
-                <input type="password" name="password" placeholder="Password" class="input-field" required>
-                <button type="submit" class="login-button">Log In</button>
-            </form>
-            <a href="#" class="forgot-password-link">Forgot password?</a>
-            <hr class="separator">
-            <button class="create-account-button">Create New Account</button>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+            <h1>A3R Chat</h1>
         </div>
-
-        <!-- Success message container -->
-        <div class="success-message" id="successMessage">
-            <h2 class="title">Login Successful!</h2>
-            <p>Welcome back, [User Name]!</p>
-        </div>
-    </div>
-
-    <script>
-        // Hide success message initially
-        document.getElementById('successMessage').style.display = 'none';
-
-        // Function to handle successful login display
-        function showSuccessMessage() {
-            document.getElementById('loginBox').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
-        }
-
-        // Simulate successful login (for demonstration purposes)
-        // Replace this with actual login success handling in your application
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission for demo
-
-            // Simulate login success
-            // Replace with actual login logic
-            setTimeout(function() {
-                showSuccessMessage();
-            }, 1500); // Show success message after 1.5 seconds (simulating server response delay)
-        });
-    </script>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Friends</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <aside class="sidebar">
+            <div class="profile-card">
+                <img src="profile-pic.jpg" alt="Profile Picture">
+                <h2>John Doe</h2>
+                <p>Status: Online</p>
+            </div>
+            <div class="friends-list">
+                <h3>Friends</h3>
+                <ul id="friendListbox">
+                    <!-- Friend list items will be dynamically added here -->
+                </ul>
+            </div>
+        </aside>
+        <section class="chat-section">
+            <div class="tab-buttons-container" id="tabButtonsContainer">
+                <!-- Tab buttons will be dynamically added here -->
+            </div>
+            <div class="tabs-container" id="tabsContainer">
+                <!-- Tabs and chat rooms will be dynamically added here -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 A3R Chat. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
