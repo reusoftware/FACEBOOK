@@ -24,33 +24,25 @@
     </header>
     <main>
         <aside class="sidebar">
-            
- <div class="login-container">
-        <div class="login-box">
-            <img src="TALKINCHAT.png" alt="Facebook Logo" class="logo">
-            <h2 class="title">Log into TalkinChat</h2>
-            <form action="login.php" method="POST" class="login-form">
-                <input type="text" name="email" placeholder="Email or Phone Number" class="input-field" required>
-                <input type="password" name="password" placeholder="Password" class="input-field" required>
-                <button type="submit" class="login-button">Log In</button>
-            </form>
-            <a href="#" class="forgot-password-link">Forgot password?</a>
-            <hr class="separator">
-            <button class="create-account-button">Create New Account</button>
-        </div>
-    </div>
-
-
-            
+            <div class="login-container">
+                <div class="login-box">
+                    <img src="TALKINCHAT.png" alt="Facebook Logo" class="logo">
+                    <h2 class="title">Log into TalkinChat</h2>
+                    <form id="loginForm" action="login.php" method="POST" class="login-form">
+                        <input type="text" id="username" name="email" placeholder="Email or Phone Number" class="input-field" required>
+                        <input type="password" id="password" name="password" placeholder="Password" class="input-field" required>
+                        <button type="button" id="loginButton" class="login-button">Log In</button>
+                    </form>
+                    <a href="#" class="forgot-password-link">Forgot password?</a>
+                    <hr class="separator">
+                    <button class="create-account-button">Create New Account</button>
+                </div>
+            </div>
             <div class="friends-list">
                 <h3>Friends</h3>
                 <ul id="friendListbox">
                     <!-- Friend list items will be dynamically added here -->
                 </ul>
-<footer>
-        <p>&copy; 2024 A3R Chat. All rights reserved.</p>
-    </footer>
-                
             </div>
         </aside>
         <section class="chat-section">
@@ -62,7 +54,9 @@
             </div>
         </section>
     </main>
-    
+    <footer>
+        <p>&copy; 2024 A3R Chat. All rights reserved.</p>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
