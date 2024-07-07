@@ -14,30 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabButtonsContainer = document.getElementById('tabButtonsContainer');
     const tabsContainer = document.getElementById('tabsContainer');
     const friendListbox = document.getElementById('friendListbox');
-    const friendListTab = document.getElementById('friendsTab');
 
     loginButton.addEventListener('click', async () => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         currentUsername = username;
         await connectWebSocket(username, password);
-    });
-
-    function activateTab(tabId) {
-        tabs.forEach(tab => {
-            if (tab.id === tabId) {
-                tab.classList.add('active');
-            } else {
-                tab.classList.remove('active');
-            }
-        });
-    }
-
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const tabId = button.getAttribute('data-tab');
-            activateTab(tabId);
-        });
     });
 
     async function connectWebSocket(username, password) {
@@ -222,128 +204,124 @@ document.addEventListener('DOMContentLoaded', () => {
             logo.textContent = room.name.charAt(0);
             logo.classList.add('room-logo');
 
+            const roomName = document.createElement('span');
+            roomName.textContent = room.name;
+
             listItem.appendChild(logo);
-            listItem.appendChild(document.createTextNode(` ${room.name} (${room.users_count} users)`));
-
-            if (room.password_protected === '1') {
-                listItem.textContent += ' [Password Protected]';
-            } else if (room.members_only === '1') {
-                listItem.textContent += ' [Members Only]';
-            }
-
+            listItem.appendChild(roomName);
             roomListbox.appendChild(listItem);
 
-            listItem.addEventListener('click', () => {
-                const roomName = room.name;
-                joinRoom(roomName);
-            });
+            listItem.addEventListener('click', () => joinRoom(room.name));
         });
     }
 
     async function joinRoom(roomName) {
+        const roomRequest = {
+            handler: 'join_room',
+            room: roomName,
+            id: generatePacketID()
+        };
+
         try {
-            const joinMessage = {
-                handler: 'join_room',
-                id: generatePacketID(),
-                name: roomName
-            };
-            await sendMessageToSocket(joinMessage);
-            await fetchUserList(roomName);
-
-            // Example: Update room input or other UI elements
-            const roomInput = document.getElementById('room');
-            roomInput.value = roomName;
-
-            // Example: Open tab for the joined room
-            openRoomTab(roomName);
+            await sendMessageToSocket(roomRequest);
+            displayRoomTab(roomName);
         } catch (error) {
-            console.error(`Error joining room: ${error.message}`);
-            // Handle errors or display messages as needed
+            console.error('Error joining room:', error);
         }
     }
 
-    function openRoomTab(roomName) {
-        const tabId = `tab-${roomName}`;
-        const existingTab = document.getElementById(tabId);
+    function displayRoomTab(roomName) {
+        const tabButton = document.createElement('button');
+        tabButton.textContent = roomName;
+        tabButton.classList.add('tab-button');
 
-        if (existingTab) {
-            activateTab(tabId);
-            return;
+        const tabContent = document.createElement('div');
+        tabContent.classList.add('tab');
+        tabContent.dataset.roomName = roomName;
+
+        const chatbox = document.createElement('div');
+        chatbox.classList.add('chatbox');
+
+        const userListBox = document.createElement('div');
+        userListBox.classList.add('user-listbox');
+
+        const inputBox = document.createElement('input');
+        inputBox.type = 'text';
+        inputBox.classList.add('input-box');
+
+        const sendButton = document.createElement('button');
+        sendButton.textContent = 'Send';
+        sendButton.classList.add('send-button');
+
+        sendButton.addEventListener('click', () => {
+            const message = inputBox.value;
+            if (message) {
+                sendChatMessage(roomName, message);
+                inputBox.value = '';
+            }
+        });
+
+        tabContent.appendChild(chatbox);
+        tabContent.appendChild(userListBox);
+        tabContent.appendChild(inputBox);
+        tabContent.appendChild(sendButton);
+
+        tabButtonsContainer.appendChild(tabButton);
+        tabsContainer.appendChild(tabContent);
+
+        tabButton.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            tabContent.style.display = 'block';
+        });
+    }
+
+    async function sendChatMessage(roomName, message) {
+        const chatMessage = {
+            handler: 'chat_message',
+            type: 'text',
+            room: roomName,
+            body: message,
+            id: generatePacketID()
+        };
+
+        try {
+            await sendMessageToSocket(chatMessage);
+        } catch (error) {
+            console.error('Error sending chat message:', error);
         }
-
-        // Create new tab button
-        const newTabButton = document.createElement('button');
-        newTabButton.textContent = roomName;
-        newTabButton.setAttribute('data-tab', tabId);
-        newTabButton.classList.add('tabButton');
-
-        // Create new tab content
-        const newTabContent = document.createElement('div');
-        newTabContent.id = tabId;
-        newTabContent.classList.add('tab');
-
-        // Create chat box
-        const chatBox = document.createElement('div');
-        chatBox.id = 'chatBox';
-        chatBox.classList.add('chat-box');
-        newTabContent.appendChild(chatBox);
-
-        // Create user list
-        const userList = document.createElement('ul');
-        userList.id = 'userList';
-        userList.classList.add('user-list');
-        newTabContent.appendChild(userList);
-
-        // Optional: Add role-setting buttons or additional UI elements
-
-        // Append tab button and content
-        tabButtonsContainer.appendChild(newTabButton);
-        tabsContainer.appendChild(newTabContent);
-
-        // Activate the new tab
-        activateTab(tabId);
-    }
-
-    async function fetchUserList(roomName) {
-        // Example: Fetch user list for the specified room and update UI
-        const users = await getUsersInRoom(roomName);
-        updateUsersList(users);
-    }
-
-    async function getUsersInRoom(roomName) {
-        // Simulate fetching users for the room from WebSocket message
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve([
-                    { username: 'user1', role: 'admin' },
-                    { username: 'user2', role: 'member' },
-                    { username: 'user3', role: 'member' }
-                ]);
-            }, 1000);
-        });
-    }
-
-    function updateUsersList(users) {
-        const userList = document.getElementById('userList');
-        userList.innerHTML = '';
-
-        users.forEach(user => {
-            const userItem = document.createElement('li');
-            userItem.textContent = `${user.username} (${user.role})`;
-            userList.appendChild(userItem);
-        });
     }
 
     function handleRoomEvent(jsonDict) {
-        // Example: Handle room events like user join, leave, permissions change
-        console.log('Room Event:', jsonDict);
+        if (jsonDict.type === 'joined') {
+            const roomName = jsonDict.room;
+            displayRoomTab(roomName);
+        } else {
+            console.log('Unhandled room event:', jsonDict);
+        }
     }
 
     function handleChatMessage(jsonDict) {
-        // Example: Handle incoming chat messages and update UI
-        console.log('Chat Message:', jsonDict);
+        const roomName = jsonDict.room;
+        const message = jsonDict.body;
+        const chatbox = document.querySelector(`.tab[data-room-name="${roomName}"] .chatbox`);
+
+        if (chatbox) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.textContent = message;
+            chatbox.appendChild(messageElement);
+        }
     }
 
-    // Optional: Add other functions as needed
+    function updateFriendList(users) {
+        friendListbox.innerHTML = '';
 
+        users.forEach(user => {
+            const listItem = document.createElement('li');
+            listItem.textContent = user;
+            friendListbox.appendChild(listItem);
+        });
+    }
 });
